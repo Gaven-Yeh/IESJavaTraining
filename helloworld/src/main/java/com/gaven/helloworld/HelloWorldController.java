@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HelloWorldController {
 
-    @RequestMapping(value="/home")
+    @RequestMapping(value = "/home")
     @ResponseBody
-    public String sayHello(){
+    public String sayHello() {
         return "Hello World";
     }
 }

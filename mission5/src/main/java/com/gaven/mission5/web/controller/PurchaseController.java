@@ -6,6 +6,7 @@ import com.gaven.mission5.data.assembler.PurchaseModelAssembler;
 import com.gaven.mission5.data.entity.Purchase;
 import com.gaven.mission5.data.repository.PurchaseRepository;
 import com.gaven.mission5.business.exception.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -26,11 +27,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 public class PurchaseController {
 
-    private final PurchaseService purchaseService;
-
-    PurchaseController(PurchaseService purchaseService) {
-        this.purchaseService = purchaseService;
-    }
+    @Autowired
+    private PurchaseService purchaseService;
 
     @GetMapping("/purchases")
     public CollectionModel<EntityModel<Purchase>> viewPurchases(){

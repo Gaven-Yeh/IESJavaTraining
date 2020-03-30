@@ -5,6 +5,7 @@ import com.gaven.mission5.data.assembler.ProductModelAssembler;
 import com.gaven.mission5.data.entity.Product;
 import com.gaven.mission5.data.repository.ProductRepository;
 import com.gaven.mission5.web.controller.ProductController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -23,13 +24,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class ProductService {
 
-    private final ProductRepository productRepo;
-    private final ProductModelAssembler productAss;
-
-    public ProductService(ProductRepository productRepo, ProductModelAssembler productAss){
-        this.productRepo = productRepo;
-        this.productAss = productAss;
-    }
+    @Autowired
+    private ProductRepository productRepo;
+    @Autowired
+    private ProductModelAssembler productAss;
 
     public CollectionModel<EntityModel<Product>> all(){
         List<EntityModel<Product>> products = productRepo.findAll().stream()

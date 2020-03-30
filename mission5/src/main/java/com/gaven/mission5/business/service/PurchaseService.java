@@ -8,6 +8,7 @@ import com.gaven.mission5.data.entity.Purchase;
 import com.gaven.mission5.data.repository.ProductRepository;
 import com.gaven.mission5.data.repository.PurchaseRepository;
 import com.gaven.mission5.web.controller.PurchaseController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -30,15 +31,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class PurchaseService {
 
-    private final PurchaseRepository purchRepo;
-    private final ProductRepository prodRepo;
-    private final PurchaseModelAssembler purchAss;
-    
-    PurchaseService(PurchaseRepository purchRepo, PurchaseModelAssembler purchAss, ProductRepository prodRepo){
-        this.purchRepo = purchRepo;
-        this.purchAss = purchAss;
-        this.prodRepo = prodRepo;
-    }
+    @Autowired
+    private PurchaseRepository purchRepo;
+    @Autowired
+    private ProductRepository prodRepo;
+    @Autowired
+    private PurchaseModelAssembler purchAss;
 
     public CollectionModel<EntityModel<Purchase>> viewPurchases(){
 

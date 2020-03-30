@@ -5,6 +5,7 @@ import com.gaven.mission5.data.assembler.ProductModelAssembler;
 import com.gaven.mission5.data.entity.Product;
 import com.gaven.mission5.data.repository.ProductRepository;
 import com.gaven.mission5.business.exception.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -21,11 +22,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 public class ProductController {
 
-    private final ProductService productService;
-
-    ProductController(ProductService productService){
-        this.productService = productService;
-    }
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/products")
     public CollectionModel<EntityModel<Product>> all(){

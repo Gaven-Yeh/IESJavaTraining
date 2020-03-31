@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class ProductModelAssembler implements RepresentationModelAssembler<Product, EntityModel<Product>> {
 
     @Override
-    public EntityModel<Product> toModel(Product purchase){
+    public EntityModel<Product> toModel(Product purchase) {
         return new EntityModel<>(purchase,
                 linkTo(methodOn(ProductController.class).one(purchase.getProduct_id())).withSelfRel(),
                 linkTo(methodOn(ProductController.class).all()).withRel("products"));

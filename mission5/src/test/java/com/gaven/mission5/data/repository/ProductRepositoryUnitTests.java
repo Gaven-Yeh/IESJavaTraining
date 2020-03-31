@@ -22,7 +22,7 @@ public class ProductRepositoryUnitTests {
 
     @Autowired
     private ProductRepository productRepo;
-    
+
     @Test
     public void testProductSave() {
         Product product = new Product("Classical", "Guitar", "Cordoba", 3);
@@ -34,7 +34,7 @@ public class ProductRepositoryUnitTests {
 
     @Test
     public void testProductGet() {
-        Product product = new Product(1L,"Classical", "Guitar", "Cordoba", 3);
+        Product product = new Product(1L, "Classical", "Guitar", "Cordoba", 3);
         productRepo.save(product);
         Product result = productRepo.findById(1L)
                 .orElseThrow(() -> new EntityNotFoundException(1L, Product.class.getSimpleName()));
@@ -44,14 +44,14 @@ public class ProductRepositoryUnitTests {
     }
 
     @Test
-    public void testDelete(){
-        Product product = new Product(1L,"Classical", "Guitar", "Cordoba", 3);
+    public void testDelete() {
+        Product product = new Product(1L, "Classical", "Guitar", "Cordoba", 3);
         productRepo.save(product);
         productRepo.deleteById(1L);
 
         Assertions.assertThrows(EntityNotFoundException.class,
-                ()->{
-            productRepo.findById(1L).orElseThrow(() -> new EntityNotFoundException(1L, Product.class.getSimpleName()));
-        });
+                () -> {
+                    productRepo.findById(1L).orElseThrow(() -> new EntityNotFoundException(1L, Product.class.getSimpleName()));
+                });
     }
 }

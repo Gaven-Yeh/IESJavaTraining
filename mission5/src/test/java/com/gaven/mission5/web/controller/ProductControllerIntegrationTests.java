@@ -24,7 +24,7 @@ public class ProductControllerIntegrationTests {
     @Test
     public void givenProductControllerWhenQueriedWithAnIdThenExpectedProduct() {
         Date date = new Date();
-        Product product = new Product((long) 5,"Classical", "Guitar", "Cordoba", 3);
+        Product product = new Product((long) 5, "Classical", "Guitar", "Cordoba", 3);
         productController.newProduct(product);
 
         EntityModel<Product> result = productController.one((long) 5);

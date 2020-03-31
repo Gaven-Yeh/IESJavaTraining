@@ -29,7 +29,7 @@ public class ProductService {
     @Autowired
     private ProductModelAssembler productAss;
 
-    public CollectionModel<EntityModel<Product>> all(){
+    public CollectionModel<EntityModel<Product>> all() {
         List<EntityModel<Product>> products = productRepo.findAll().stream()
                 .map(productAss::toModel)
                 .collect(Collectors.toList());
@@ -46,13 +46,13 @@ public class ProductService {
                 .body(entityModel);
     }
 
-    public EntityModel<Product> one(@PathVariable Long id){
+    public EntityModel<Product> one(@PathVariable Long id) {
         Product product = productRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id, Product.class.getSimpleName()));
         return productAss.toModel(product);
     }
 
-    public ResponseEntity<?> replaceProduct(@RequestBody Product newProduct, @PathVariable Long id) throws URISyntaxException{
+    public ResponseEntity<?> replaceProduct(@RequestBody Product newProduct, @PathVariable Long id) throws URISyntaxException {
 
         Product editedProduct = productRepo.findById(id)
                 .map(product -> {
@@ -61,7 +61,7 @@ public class ProductService {
                     product.setStock(newProduct.getStock());
                     return productRepo.save(product);
                 })
-                .orElseGet(() ->{
+                .orElseGet(() -> {
                     newProduct.setProduct_id(id);
                     return productRepo.save(newProduct);
                 });
@@ -73,7 +73,7 @@ public class ProductService {
                 .body(entityModel);
     }
 
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id){
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         productRepo.deleteById(id);
         return ResponseEntity.noContent().build();
     }

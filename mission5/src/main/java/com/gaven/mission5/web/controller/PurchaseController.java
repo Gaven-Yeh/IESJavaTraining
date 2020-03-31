@@ -31,12 +31,12 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     @GetMapping("/purchases")
-    public CollectionModel<EntityModel<Purchase>> viewPurchases(){
+    public CollectionModel<EntityModel<Purchase>> viewPurchases() {
         return purchaseService.viewPurchases();
     }
 
     @GetMapping("/purchases/{id}")
-    public EntityModel<Purchase> getOne(@PathVariable Long id){
+    public EntityModel<Purchase> getOne(@PathVariable Long id) {
         return purchaseService.getOne(id);
     }
 
@@ -46,17 +46,17 @@ public class PurchaseController {
     }
 
     @PutMapping("/purchases/{id}")
-    public ResponseEntity<?> editPurchase(@RequestBody Purchase newPurchase, @PathVariable Long id) throws URISyntaxException{
+    public ResponseEntity<?> editPurchase(@RequestBody Purchase newPurchase, @PathVariable Long id) throws URISyntaxException {
         return purchaseService.editPurchase(newPurchase, id);
     }
 
     @PutMapping("/purchases/{id}/complete")
-    public ResponseEntity<?> completePurchase(@PathVariable Long id){
+    public ResponseEntity<?> completePurchase(@PathVariable Long id) {
         return purchaseService.completePurchase(id);
     }
 
     @DeleteMapping("/purchases/{id}/cancel")
-    public ResponseEntity<RepresentationModel> cancelPurchase(@PathVariable Long id){
+    public ResponseEntity<RepresentationModel> cancelPurchase(@PathVariable Long id) {
         return purchaseService.cancelPurchase(id);
     }
 }

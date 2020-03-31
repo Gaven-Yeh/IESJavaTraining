@@ -56,7 +56,7 @@ public class PurchaseControllerIntegrationTests {
         ResponseEntity<?> result = purchaseController.completePurchase(purchase.getPurchase_id());
 
         Product updatedProduct = prodRepo.findById(product.getProduct_id()).
-                orElseThrow(()-> new EntityNotFoundException(product.getProduct_id(), Product.class.getSimpleName()));
+                orElseThrow(() -> new EntityNotFoundException(product.getProduct_id(), Product.class.getSimpleName()));
 
         assertThat(result.getBody().toString(), containsString("COMPLETED"));
         assertThat(updatedProduct.getStock(), equalTo(1));

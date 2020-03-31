@@ -38,7 +38,7 @@ public class PurchaseService {
     @Autowired
     private PurchaseModelAssembler purchAss;
 
-    public CollectionModel<EntityModel<Purchase>> viewPurchases(){
+    public CollectionModel<EntityModel<Purchase>> viewPurchases() {
 
         List<EntityModel<Purchase>> purchases = purchRepo.findAll().stream()
                 .map(purchAss::toModel)
@@ -47,36 +47,36 @@ public class PurchaseService {
                 linkTo(methodOn(PurchaseController.class).viewPurchases()).withSelfRel());
     }
 
-    public EntityModel<Purchase> getOne(@PathVariable Long id){
+    public EntityModel<Purchase> getOne(@PathVariable Long id) {
         Purchase purchase = purchRepo.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException(id, Purchase.class
+                .orElseThrow(() -> new EntityNotFoundException(id, Purchase.class
                         .getSimpleName()));
         return purchAss.toModel(purchase);
     }
 
     public ResponseEntity<?> addToCart(@RequestBody Purchase newPurchase) {
 
-        if(newPurchase.getDate()==null){
+        if (newPurchase.getDate() == null) {
             newPurchase.setDate(new Date());
         }
 
         newPurchase.setStatus(Status.IN_PROGRESS);
 
-        EntityModel<Purchase> entityModel=purchAss.toModel(purchRepo.save(newPurchase));
+        EntityModel<Purchase> entityModel = purchAss.toModel(purchRepo.save(newPurchase));
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
-    public ResponseEntity<?> editPurchase(@RequestBody Purchase newPurchase, @PathVariable Long id) throws URISyntaxException{
+    public ResponseEntity<?> editPurchase(@RequestBody Purchase newPurchase, @PathVariable Long id) throws URISyntaxException {
 
         Purchase editedPurchase = purchRepo.findById(id)
                 .map(purchase -> {
                     purchase.setProduct_id(newPurchase.getProduct_id());
                     return purchRepo.save(purchase);
                 })
-                .orElseGet(()->{
+                .orElseGet(() -> {
                     newPurchase.setPurchase_id(id);
                     return purchRepo.save(newPurchase);
                 });
@@ -103,7 +103,7 @@ public class PurchaseService {
         // reduce stock or relevant product by one
         Product purchasedProduct = prodRepo.findById(purchase.getProduct_id())
                 .map(product -> {
-                    product.setStock(product.getStock()-1);
+                    product.setStock(product.getStock() - 1);
                     return prodRepo.save(product);
                 })
                 .orElseThrow(() -> new EntityNotFoundException(purchase.getProduct_id(), Product.class.getSimpleName()));
@@ -111,12 +111,12 @@ public class PurchaseService {
         return ResponseEntity.ok(purchAss.toModel(purchRepo.save(purchase)));
     }
 
-    public ResponseEntity<RepresentationModel> cancelPurchase(@PathVariable Long id){
+    public ResponseEntity<RepresentationModel> cancelPurchase(@PathVariable Long id) {
 
         Purchase purchase = purchRepo.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException(id, Purchase.class.getSimpleName()));
+                .orElseThrow(() -> new EntityNotFoundException(id, Purchase.class.getSimpleName()));
 
-        if (purchase.getStatus() == Status.IN_PROGRESS){
+        if (purchase.getStatus() == Status.IN_PROGRESS) {
             purchase.setStatus(Status.CANCELLED);
             return ResponseEntity.ok(purchAss.toModel(purchRepo.save(purchase)));
         }

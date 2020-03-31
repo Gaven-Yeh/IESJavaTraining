@@ -17,9 +17,10 @@ public class Purchase {
     private Date date;
     private Status status;
 
-    public Purchase(){}
+    public Purchase() {
+    }
 
-    public Purchase(Long product_id, Date date, Status status){
+    public Purchase(Long product_id, Date date, Status status) {
         this.product_id = product_id;
         this.date = date;
         this.status = status;

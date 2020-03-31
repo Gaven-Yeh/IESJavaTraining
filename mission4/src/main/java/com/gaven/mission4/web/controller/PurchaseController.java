@@ -5,6 +5,7 @@ import com.gaven.mission4.data.assembler.PurchaseModelAssembler;
 import com.gaven.mission4.data.entity.Purchase;
 import com.gaven.mission4.data.repository.PurchaseRepository;
 import com.gaven.mission4.exception.EntityNotFoundException;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import org.apache.coyote.Response;
@@ -35,7 +36,7 @@ public class PurchaseController {
     }
 
     @GetMapping("/purchases")
-    public CollectionModel<EntityModel<Purchase>> viewPurchases(){
+    public CollectionModel<EntityModel<Purchase>> viewPurchases() {
 
         List<EntityModel<Purchase>> purchases = repo.findAll().stream()
                 .map(assembler::toModel)
@@ -45,9 +46,9 @@ public class PurchaseController {
     }
 
     @GetMapping("/purchases/{id}")
-    public EntityModel<Purchase> getOne(@PathVariable Long id){
+    public EntityModel<Purchase> getOne(@PathVariable Long id) {
         Purchase purchase = repo.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException(id, Purchase.class
+                .orElseThrow(() -> new EntityNotFoundException(id, Purchase.class
                         .getSimpleName()));
         return assembler.toModel(purchase);
     }
@@ -55,13 +56,13 @@ public class PurchaseController {
     @PostMapping("/purchases")
     public ResponseEntity<?> addToCart(@RequestBody Purchase newPurchase) throws URISyntaxException {
 
-        if(newPurchase.getDate()==null){
+        if (newPurchase.getDate() == null) {
             newPurchase.setDate(new Date());
         }
 
         newPurchase.setStatus(Status.IN_PROGRESS);
 
-        EntityModel<Purchase> entityModel=assembler.toModel(repo.save(newPurchase));
+        EntityModel<Purchase> entityModel = assembler.toModel(repo.save(newPurchase));
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -69,14 +70,14 @@ public class PurchaseController {
     }
 
     @PutMapping("/purchases/{id}")
-    public ResponseEntity<?> editPurchase(@RequestBody Purchase newPurchase, @PathVariable Long id) throws URISyntaxException{
+    public ResponseEntity<?> editPurchase(@RequestBody Purchase newPurchase, @PathVariable Long id) throws URISyntaxException {
 
         Purchase editedPurchase = repo.findById(id)
                 .map(purchase -> {
                     purchase.setProduct_id(newPurchase.getProduct_id());
                     return repo.save(purchase);
                 })
-                .orElseGet(()->{
+                .orElseGet(() -> {
                     newPurchase.setPurchase_id(id);
                     return repo.save(newPurchase);
                 });
@@ -89,11 +90,11 @@ public class PurchaseController {
     }
 
     @PutMapping("/purchases/{id}/complete")
-    public ResponseEntity<?> completePurchase(@PathVariable Long id){
+    public ResponseEntity<?> completePurchase(@PathVariable Long id) {
 
-        Purchase purchase = repo.findById(id).orElseThrow(()-> new EntityNotFoundException(id, Purchase.class.getSimpleName()));
+        Purchase purchase = repo.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Purchase.class.getSimpleName()));
 
-        if (purchase.getStatus() == Status.IN_PROGRESS){
+        if (purchase.getStatus() == Status.IN_PROGRESS) {
             purchase.setStatus(Status.COMPLETED);
             return ResponseEntity.ok(assembler.toModel(repo.save(purchase)));
         }
@@ -104,12 +105,12 @@ public class PurchaseController {
     }
 
     @DeleteMapping("/purchases/{id}/cancel")
-    public ResponseEntity<RepresentationModel> cancelPurchase(@PathVariable Long id){
+    public ResponseEntity<RepresentationModel> cancelPurchase(@PathVariable Long id) {
 
         Purchase purchase = repo.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException(id, Purchase.class.getSimpleName()));
+                .orElseThrow(() -> new EntityNotFoundException(id, Purchase.class.getSimpleName()));
 
-        if (purchase.getStatus() == Status.IN_PROGRESS){
+        if (purchase.getStatus() == Status.IN_PROGRESS) {
             purchase.setStatus(Status.CANCELLED);
             return ResponseEntity.ok(assembler.toModel(repo.save(purchase)));
         }

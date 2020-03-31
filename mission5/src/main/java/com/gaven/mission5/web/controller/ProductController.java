@@ -26,27 +26,27 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public CollectionModel<EntityModel<Product>> all(){
+    public CollectionModel<EntityModel<Product>> all() {
         return productService.all();
     }
 
     @PostMapping("/products")
-    public ResponseEntity<?> newProduct(@RequestBody Product newProduct){
+    public ResponseEntity<?> newProduct(@RequestBody Product newProduct) {
         return productService.newProduct(newProduct);
     }
 
     @GetMapping("/products/{id}")
-    public EntityModel<Product> one(@PathVariable Long id){
+    public EntityModel<Product> one(@PathVariable Long id) {
         return productService.one(id);
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<?> replaceProduct(@RequestBody Product newProduct, @PathVariable Long id) throws URISyntaxException{
+    public ResponseEntity<?> replaceProduct(@RequestBody Product newProduct, @PathVariable Long id) throws URISyntaxException {
         return productService.replaceProduct(newProduct, id);
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id){
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         return productService.deleteProduct(id);
     }
 }

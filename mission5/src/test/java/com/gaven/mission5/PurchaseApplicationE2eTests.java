@@ -56,7 +56,7 @@ public class PurchaseApplicationE2eTests {
                 .body("status", is("COMPLETED"));
 
         Product updatedProduct = productRepository.findById(product.getProduct_id()).
-                orElseThrow(()-> new EntityNotFoundException(product.getProduct_id(), Product.class.getSimpleName()));
+                orElseThrow(() -> new EntityNotFoundException(product.getProduct_id(), Product.class.getSimpleName()));
 
         assertThat(updatedProduct.getStock(), equalTo(1));
     }

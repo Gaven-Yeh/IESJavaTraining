@@ -36,8 +36,8 @@ public class ProductServiceUnitTests {
     }
 
     @Test
-    public void givenProductServiceWhenQueriedWithAnIdThenGetExpectedProduct(){
-        Product product = new Product((long) 5,"Classical", "Guitar", "Cordoba", 3);
+    public void givenProductServiceWhenQueriedWithAnIdThenGetExpectedProduct() {
+        Product product = new Product((long) 5, "Classical", "Guitar", "Cordoba", 3);
         EntityModel<Product> entityModel = new EntityModel<>(product,
                 linkTo(methodOn(ProductController.class).one(product.getProduct_id())).withSelfRel(),
                 linkTo(methodOn(ProductController.class).all()).withRel("products"));

@@ -47,11 +47,11 @@ public class ProductControllerUnitTests {
 
     @Test
     public void newProductTest() throws Exception {
-        Product product = new Product((long) 5,"Classical", "Guitar", "Cordoba", 3);
+        Product product = new Product((long) 5, "Classical", "Guitar", "Cordoba", 3);
         EntityModel<Product> entityModel = new EntityModel<>(product,
                 linkTo(methodOn(ProductController.class).one(product.getProduct_id())).withSelfRel(),
                 linkTo(methodOn(ProductController.class).all()).withRel("products"));
-        ResponseEntity responseEntity= ResponseEntity
+        ResponseEntity responseEntity = ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel.getContent());
 
@@ -61,6 +61,6 @@ public class ProductControllerUnitTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(product)))
-        .andExpect(status().isCreated()).andReturn();
+                .andExpect(status().isCreated()).andReturn();
     }
 }

@@ -13,7 +13,9 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Purchase {
     @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,7 +26,7 @@ public class Purchase {
 
     public Purchase(long purchase_id, long product_id, Date purchase_date, boolean is_purchased) {
         this.purchase_id = purchase_id;
-        this.product_id =product_id;
+        this.product_id = product_id;
         this.purchase_date = purchase_date;
         this.is_purchased = is_purchased;
     }

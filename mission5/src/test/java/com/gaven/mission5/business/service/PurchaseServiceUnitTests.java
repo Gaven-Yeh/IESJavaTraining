@@ -46,7 +46,7 @@ public class PurchaseServiceUnitTests {
     }
 
     @Test
-    public void getOnePurchaseTest(){
+    public void getOnePurchaseTest() {
         Date date = new Date();
         Purchase purchase = new Purchase(5L, date, Status.IN_PROGRESS);
         EntityModel<Purchase> entityModel = new EntityModel<>(purchase,
@@ -87,7 +87,6 @@ public class PurchaseServiceUnitTests {
         ResponseEntity<?> updatedProdResponse = ResponseEntity.ok(updatedProdEntityModel);
 
 
-
         Mockito.when(purchaseRepository.findById(5L)).thenReturn(Optional.of(purchase));
         Mockito.when(purchaseRepository.save(purchase)).thenReturn(updatedPurchase);
         Mockito.when(purchaseModelAssembler.toModel(purchase)).thenReturn(purchEntityModel);
@@ -99,8 +98,6 @@ public class PurchaseServiceUnitTests {
         ResponseEntity<?> result = purchaseService.completePurchase(5L);
 
         Assertions.assertEquals(purchResponse, result);
-
-
 
 
     }

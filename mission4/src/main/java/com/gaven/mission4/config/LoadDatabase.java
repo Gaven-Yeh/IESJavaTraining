@@ -17,15 +17,15 @@ import java.util.Date;
 public class LoadDatabase {
 
     @Bean
-    CommandLineRunner initDatabase(ProductRepository productRepo, PurchaseRepository purchaseRepo){
-        return args->{
+    CommandLineRunner initDatabase(ProductRepository productRepo, PurchaseRepository purchaseRepo) {
+        return args -> {
             log.info("Preloading" + productRepo.save(new Product("Acoustic", "Guitar", "Taylors", 5)));
             log.info("Preloading" + productRepo.save(new Product("Grand", "Piano", "Yamaha", 3)));
 
             purchaseRepo.save(new Purchase((long) 1, new Date(), Status.COMPLETED));
             purchaseRepo.save(new Purchase((long) 2, new Date(), Status.IN_PROGRESS));
 
-            purchaseRepo.findAll().forEach(purchase->{
+            purchaseRepo.findAll().forEach(purchase -> {
                 log.info("Preloaded" + purchase);
             });
         };

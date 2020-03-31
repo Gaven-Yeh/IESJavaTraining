@@ -25,7 +25,7 @@ public class ProductApplicationE2eTests {
 
     @Test
     public void givenProductApplicationWhenQueriedWithAnIdThenGetExpectedMovie() {
-        Product product = new Product((long) 5,"Classical", "Guitar", "Cordoba", 3);
+        Product product = new Product((long) 5, "Classical", "Guitar", "Cordoba", 3);
         productController.newProduct(product);
 
         when().get(String.format("http://localhost:%s/products/5", port))

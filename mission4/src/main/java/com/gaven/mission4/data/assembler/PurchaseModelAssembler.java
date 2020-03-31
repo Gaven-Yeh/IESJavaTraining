@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
 public class PurchaseModelAssembler implements RepresentationModelAssembler<Purchase, EntityModel<Purchase>> {
 
     @Override
-    public EntityModel<Purchase> toModel(Purchase purchase){
+    public EntityModel<Purchase> toModel(Purchase purchase) {
 
         EntityModel<Purchase> purchaseModel = new EntityModel<>(purchase,
                 linkTo(methodOn(PurchaseController.class).getOne(purchase.getPurchase_id())).withSelfRel(),
                 linkTo(methodOn(PurchaseController.class).viewPurchases()).withRel("purchases"));
 
-        if (purchase.getStatus() == Status.IN_PROGRESS){
+        if (purchase.getStatus() == Status.IN_PROGRESS) {
             purchaseModel.add(
                     linkTo(methodOn(PurchaseController.class).cancelPurchase(purchase.getPurchase_id())).withRel("cancel"));
             purchaseModel.add(

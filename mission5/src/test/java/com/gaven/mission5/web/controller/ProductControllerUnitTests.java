@@ -40,6 +40,7 @@ public class ProductControllerUnitTests {
     @Autowired
     private MockMvc mockMvc;
 
+    static ObjectMapper mapper = new ObjectMapper();
 
     @MockBean
     ProductService productService;
@@ -53,8 +54,6 @@ public class ProductControllerUnitTests {
         ResponseEntity responseEntity= ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel.getContent());
-
-        ObjectMapper mapper = new ObjectMapper();
 
         Mockito.when(productService.newProduct(product)).thenReturn(responseEntity);
 

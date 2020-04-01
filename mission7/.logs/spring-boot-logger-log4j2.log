@@ -1,9 +1,0 @@
-2020-04-01 09:47:45,800 INFO o.s.b.StartupInfoLogger [main] Starting Mission7Application on CPX-OKGVSIZBI30 with PID 13672 (C:\Users\gaven.yeh\OneDrive - Accenture\Documents\IesJavaTraining2020\Mission1\mission7\target\classes started by gaven.yeh in C:\Users\gaven.yeh\OneDrive - Accenture\Documents\IesJavaTraining2020\Mission1\mission7)
-2020-04-01 09:47:45,816 DEBUG o.s.b.StartupInfoLogger [main] Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
-2020-04-01 09:47:45,819 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
-2020-04-01 09:47:56,613 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2020-04-01 09:47:57,473 INFO o.s.b.StartupInfoLogger [main] Started Mission7Application in 12.861 seconds (JVM running for 19.458)
-2020-04-01 09:47:57,682 INFO c.g.m.c.LoadDatabase [main] PreloadingProduct(product_id=1, type=Acoustic, instrument=Guitar, brand=Taylors, stock=5)
-2020-04-01 09:47:57,687 INFO c.g.m.c.LoadDatabase [main] PreloadingProduct(product_id=2, type=Grand, instrument=Piano, brand=Yamaha, stock=3)
-2020-04-01 09:47:58,135 INFO c.g.m.c.LoadDatabase [main] PreloadedPurchase(purchase_id=3, product_id=1, date=2020-04-01 09:47:57.688, status=COMPLETED)
-2020-04-01 09:47:58,135 INFO c.g.m.c.LoadDatabase [main] PreloadedPurchase(purchase_id=4, product_id=2, date=2020-04-01 09:47:57.728, status=IN_PROGRESS)

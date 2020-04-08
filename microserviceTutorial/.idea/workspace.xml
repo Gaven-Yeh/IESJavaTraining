@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="43dfeca2-5213-4b84-b220-b412e50ad67b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/main/java/com/gaven/dzone_flyway/DzoneFlywayApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/main/java/com/gaven/dzone_flyway/controller/CustomerController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/main/java/com/gaven/dzone_flyway/entity/Contact.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/main/java/com/gaven/dzone_flyway/entity/Customer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/main/java/com/gaven/dzone_flyway/repository/ContactRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/main/java/com/gaven/dzone_flyway/repository/CustomerRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/main/resources/db/migration/V1__customers.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/main/resources/db/migration/V2__contacts.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dzone_flyway/src/test/java/com/gaven/dzone_flyway/DzoneFlywayApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1a9HgtuUSlEdJiHIG9zHnR9bDY4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="MovieCatalogServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="microserviceTutorial" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.gaven.moviecatalogservice.MovieCatalogServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="43dfeca2-5213-4b84-b220-b412e50ad67b" name="Default Changelist" comment="" />
+      <created>1586141003607</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586141003607</updated>
+      <workItem from="1586141007375" duration="474000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="91" y="43" key="new project wizard" timestamp="1586141480816">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="91" y="43" key="new project wizard/0.0.1280.680@0.0.1280.680" timestamp="1586141480816" />
+  </component>
+</project>

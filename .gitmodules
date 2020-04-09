@@ -1,0 +1,3 @@
+[submodule "okta--spring-microservices-docker-example"]
+	path = okta--spring-microservices-docker-example
+	url = https://github.com/oktadeveloper/okta-spring-microservices-docker-example.git

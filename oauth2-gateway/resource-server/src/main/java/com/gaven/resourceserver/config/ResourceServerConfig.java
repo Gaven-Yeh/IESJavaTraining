@@ -33,7 +33,7 @@ public class ResourceServerConfig {
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {
         http
                 .authorizeExchange()
-                    .pathMatchers("/user/**")
+                    .pathMatchers("/resource/user/**")
 //                .permitAll()
                         .hasAuthority("SCOPE_user")// TODO: make an admin endpoint
                     .anyExchange()

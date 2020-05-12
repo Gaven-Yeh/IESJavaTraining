@@ -17,18 +17,22 @@ public class GatewayApplication {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("resource", r -> r.path("/resource/user")
+//                .route("resource", r -> r.path("/resource/user")
+//                    .filters(f -> f.filters(filterFactory.apply())
+//                            .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
+//                    .uri("http://localhost:9000/user")) // TODO: try using eureka service discovery instead
+//                .route("resource", r -> r.path("/resource/admin")
+//                    .filters(f -> f.filters(filterFactory.apply())
+//                            .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
+//                    .uri("http://localhost:9000/admin"))
+//                .route("resource", r -> r.path("/resource/home")
+//                    .filters(f -> f.filters(filterFactory.apply())
+//                            .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
+//                    .uri("http://localhost:9000/home"))
+                .route("resource", r -> r.path("/resource/**")
                     .filters(f -> f.filters(filterFactory.apply())
                             .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
-                    .uri("http://localhost:9000/user")) // TODO: try using eureka service discovery instead
-                .route("resource", r -> r.path("/resource/admin")
-                    .filters(f -> f.filters(filterFactory.apply())
-                            .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
-                    .uri("http://localhost:9000/admin"))
-                .route("resource", r -> r.path("/resource/home")
-                    .filters(f -> f.filters(filterFactory.apply())
-                            .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
-                    .uri("http://localhost:9000/home"))
+                    .uri("http://localhost:9000"))
                 .build();
     }
 

@@ -1,0 +1,16 @@
+server:
+  port: 9000
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8180/auth/realms/oauth2-demo/protocol/openid-connect/certs
+  application:
+    name: resource-server
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

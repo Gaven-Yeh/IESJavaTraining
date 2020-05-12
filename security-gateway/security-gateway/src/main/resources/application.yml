@@ -1,0 +1,43 @@
+server:
+  port: 9999
+
+logging:
+  level:
+    root: INFO
+    com.scg.gateway: TRACE
+    org.springframework.web: INFO
+    org.springframework.web.HttpLogging: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+
+spring:
+  autoconfigure:
+    # TODO: remove when fixed https://github.com/spring-projects/spring-security/issues/6314
+    exclude: org.springframework.boot.actuate.autoconfigure.security.reactive.ReactiveManagementWebSecurityAutoConfiguration
+  thymeleaf:
+    cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway:
+            provider: keycloak
+            client-id: gateway
+            client-secret: d40a26a3-2eaf-4597-8cf5-e023364ea028
+            authorization-grant-type: authorization_code
+            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid,profile,email,resource.read
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8180/auth/realms/oauth2-demo
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: resource
+#          uri: http://resource:9000
+#          predicates:
+#            - Path=/resource
+#          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie

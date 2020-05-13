@@ -17,9 +17,10 @@ public class Controller {
 
     @GetMapping("/resource/admin")
     public String admin(@AuthenticationPrincipal Jwt jwt) {
-        return String.format("Admin resource accessed by: %s (with subjectId: %s)" ,
+        return String.format("Admin resource accessed by: %s (with subjectId: %s) token: %s" ,
                 jwt.getClaims().get("user_name"),
-                jwt.getSubject());
+                jwt.getSubject(),
+                jwt.getTokenValue());
     }
 
     @GetMapping("/resource/home")

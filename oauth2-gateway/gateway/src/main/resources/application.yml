@@ -2,6 +2,8 @@ server:
   port: 9999
 
 spring:
+  thymeleaf:
+    cache: false
   security:
     oauth2:
       client:

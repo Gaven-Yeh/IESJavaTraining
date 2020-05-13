@@ -10,21 +10,21 @@ public class Controller {
 
     @GetMapping("/resource/user")
     public String user(@AuthenticationPrincipal Jwt jwt) {
-        return String.format("Resource accessed by: %s (with subjectId: %s)" ,
+        return String.format("User resource accessed by: %s (with subjectId: %s)" ,
                 jwt.getClaims().get("user_name"),
                 jwt.getSubject());
     }
 
     @GetMapping("/resource/admin")
     public String admin(@AuthenticationPrincipal Jwt jwt) {
-        return String.format("Resource accessed by: %s (with subjectId: %s)" ,
+        return String.format("Admin resource accessed by: %s (with subjectId: %s)" ,
                 jwt.getClaims().get("user_name"),
                 jwt.getSubject());
     }
 
     @GetMapping("/resource/home")
     public String home(@AuthenticationPrincipal Jwt jwt) {
-        return String.format("Resource accessed by: %s (with subjectId: %s)" ,
+        return String.format("Home resource accessed by: %s (with subjectId: %s)" ,
                 jwt.getClaims().get("user_name"),
                 jwt.getSubject());
     }

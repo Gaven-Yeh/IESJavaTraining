@@ -7,6 +7,12 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.cloud.security.oauth2.gateway.TokenRelayGatewayFilterFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @SpringBootApplication
 public class GatewayApplication {
@@ -17,25 +23,23 @@ public class GatewayApplication {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-//                .route("resource", r -> r.path("/resource/user")
-//                    .filters(f -> f.filters(filterFactory.apply())
-//                            .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
-//                    .uri("http://localhost:9000/user")) // TODO: try using eureka service discovery instead
-//                .route("resource", r -> r.path("/resource/admin")
-//                    .filters(f -> f.filters(filterFactory.apply())
-//                            .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
-//                    .uri("http://localhost:9000/admin"))
-//                .route("resource", r -> r.path("/resource/home")
-//                    .filters(f -> f.filters(filterFactory.apply())
-//                            .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
-//                    .uri("http://localhost:9000/home"))
                 .route("resource", r -> r.path("/resource/**")
                     .filters(f -> f.filters(filterFactory.apply())
                             .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
-                    .uri("http://localhost:9000"))
+                    .uri("lb://resource-server"))
                 .build();
     }
 
+    @GetMapping("/")
+    public String index(Model model,
+                        @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
+                        @AuthenticationPrincipal OAuth2User oauth2User) {
+        model.addAttribute("userName", oauth2User.getName());
+        model.addAttribute("clientName", authorizedClient.getClientRegistration().getClientName());
+        model.addAttribute("userAttributes", oauth2User.getAttributes());
+        return "index";
+    }
+    
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
     }

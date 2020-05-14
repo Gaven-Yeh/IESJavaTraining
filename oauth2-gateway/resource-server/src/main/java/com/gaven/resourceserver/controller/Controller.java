@@ -23,10 +23,18 @@ public class Controller {
                 jwt.getTokenValue());
     }
 
+//    @GetMapping("/resource/user")
+//    public String user() {
+//        return "<h1>Welcome to the user endpoint</h1>";
+//    }
+//
+//    @GetMapping("/resource/admin")
+//    public String admin() {
+//        return "<h1>Welcome to the admin endpoint</h1>";
+//    }
+
     @GetMapping("/resource/home")
-    public String home(@AuthenticationPrincipal Jwt jwt) {
-        return String.format("Home resource accessed by: %s (with subjectId: %s)" ,
-                jwt.getClaims().get("user_name"),
-                jwt.getSubject());
+    public String home() {
+        return "<h1>welcome</h1>";
     }
 }

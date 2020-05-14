@@ -29,25 +29,25 @@ import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher
 //    }
 //}
 
-@EnableWebFluxSecurity
+//@EnableWebFluxSecurity
 public class ResourceServerConfig {
-    @Bean
-    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {
-        http
-                .authorizeExchange()
-                    .pathMatchers("/resource/**")
-                        .hasAuthority("SCOPE_resource.read")
-                    .pathMatchers("/resource/admin/**")
-                        .hasRole("ROLE_admin")
-                   .pathMatchers("/resource/user/**")
-                        .hasAnyRole("ROLE_user", "ROLE_admin")
-
-                .anyExchange()
-                        .authenticated()
-                    .and()
-                .oauth2ResourceServer()
-                    .jwt();
-        return http.build();
-    }
+//    @Bean
+//    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {
+//        http
+//                .authorizeExchange()
+//                    .pathMatchers("/resource/**")
+//                        .hasAuthority("SCOPE_resource.read")
+////                    .pathMatchers("/resource/admin/**")
+////                        .hasRole("ROLE_admin")
+////                   .pathMatchers("/resource/user/**")
+////                        .hasAnyRole("ROLE_user", "ROLE_admin")
+//
+//                .anyExchange()
+//                        .authenticated()
+//                    .and()
+//                .oauth2ResourceServer()
+//                    .jwt();
+//        return http.build();
+//    }
 }
 

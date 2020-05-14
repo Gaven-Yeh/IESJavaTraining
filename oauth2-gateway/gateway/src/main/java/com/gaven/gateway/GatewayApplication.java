@@ -26,9 +26,9 @@ public class GatewayApplication {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("resource", r -> r.path("/resource/**")
-                    .filters(f -> f.filters(filterFactory.apply())
-                            .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
-                    .uri("lb://resource-server"))
+                        .filters(f -> f.filters(filterFactory.apply())
+                                .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
+                        .uri("lb://resource-server"))
                 .build();
     }
 

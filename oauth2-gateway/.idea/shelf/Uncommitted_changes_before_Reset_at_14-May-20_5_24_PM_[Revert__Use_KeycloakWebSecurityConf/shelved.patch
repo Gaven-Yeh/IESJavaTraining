@@ -1,0 +1,231 @@
+Index: resource-server-a/src/main/java/com/gaven/resourceserver/config/KeycloakSecurityConfig.java
+===================================================================
+--- resource-server-a/src/main/java/com/gaven/resourceserver/config/KeycloakSecurityConfig.java	(revision 6e3211b15e15cd88a61eaaa05155fae5110b93b5)
++++ resource-server-a/src/main/java/com/gaven/resourceserver/config/KeycloakSecurityConfig.java	(revision 6e3211b15e15cd88a61eaaa05155fae5110b93b5)
+@@ -1,67 +0,0 @@
+-package com.gaven.resourceserver.config;
+-
+-import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
+-import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
+-import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
+-import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
+-import org.keycloak.adapters.springsecurity.management.HttpSessionManager;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+-import org.springframework.context.annotation.Bean;
+-import org.springframework.context.annotation.ComponentScan;
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+-import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+-import org.springframework.security.core.session.SessionRegistryImpl;
+-import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+-
+-@Configuration
+-@EnableWebSecurity
+-@ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
+-public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
+-
+-    @Autowired
+-    public void configureGlobal(
+-            AuthenticationManagerBuilder auth) throws Exception {
+-
+-        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
+-        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+-        auth.authenticationProvider(keycloakAuthenticationProvider);
+-    }
+-
+-    @Bean
+-    public KeycloakSpringBootConfigResolver KeycloakConfigResolver() {
+-        return new KeycloakSpringBootConfigResolver();
+-    }
+-
+-    @Bean
+-    @Override
+-    @ConditionalOnMissingBean(HttpSessionManager.class)
+-    protected HttpSessionManager httpSessionManager() {
+-        return super.httpSessionManager();
+-    }
+-
+-    @Override
+-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+-        return new RegisterSessionAuthenticationStrategy(
+-                new SessionRegistryImpl());
+-    }
+-
+-    @Override
+-    protected void configure(HttpSecurity http) throws Exception {
+-        super.configure(http);
+-        http.authorizeRequests()
+-                .antMatchers("/resource/admin*")
+-                .hasRole("admin")
+-                .antMatchers("/resource/user")
+-                .hasAnyRole("user", "admin")
+-                .anyRequest()
+-                .permitAll()
+-                .and()
+-                .oauth2ResourceServer()
+-                .jwt();
+-    }
+-}
+Index: resource-server-a/src/main/resources/application.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>server:\r\n  port: 9000\r\n\r\nspring:\r\n  security:\r\n    oauth2:\r\n      client:\r\n        registration:\r\n          gateway:\r\n            provider: keycloak\r\n            client-id: client-credentials\r\n            client-secret: e0ff1b97-fe3b-4ce8-9a15-24615609bbd3\r\n            authorization-grant-type: client_credentials\r\n            scope: resource-b\r\n        provider:\r\n          keycloak:\r\n            issuer-uri: http://localhost:8180/auth/realms/oauth2-demo\r\n      resourceserver:\r\n        jwt:\r\n          jwk-set-uri: http://localhost:8180/auth/realms/oauth2-demo/protocol/openid-connect/certs\r\n  application:\r\n    name: resource-server\r\n\r\neureka:\r\n  client:\r\n    service-url:\r\n      defaultZone: http://localhost:8761/eureka\r\n\r\nkeycloak:\r\n  auth-server-url: http://localhost:8180/auth\r\n  realm: oauth2-demo\r\n  resource: gateway\r\n  public-client: false
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- resource-server-a/src/main/resources/application.yml	(revision 6e3211b15e15cd88a61eaaa05155fae5110b93b5)
++++ resource-server-a/src/main/resources/application.yml	(date 1589448088056)
+@@ -24,10 +24,4 @@
+ eureka:
+   client:
+     service-url:
+-      defaultZone: http://localhost:8761/eureka
+-
+-keycloak:
+-  auth-server-url: http://localhost:8180/auth
+-  realm: oauth2-demo
+-  resource: gateway
+-  public-client: false
+\ No newline at end of file
++      defaultZone: http://localhost:8761/eureka
+\ No newline at end of file
+Index: resource-server-a/src/main/java/com/gaven/resourceserver/config/ResourceServerConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.gaven.resourceserver.config;\r\n\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\nimport org.springframework.security.config.annotation.web.builders.HttpSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;\r\nimport org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;\r\nimport org.springframework.security.config.web.server.ServerHttpSecurity;\r\nimport org.springframework.security.web.server.SecurityWebFilterChain;\r\nimport org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;\r\n\r\n//@EnableWebSecurity\r\n//public class ResourceServerConfig extends WebSecurityConfigurerAdapter {\r\n//\r\n//    @Override\r\n//    protected void configure(HttpSecurity http) throws Exception {\r\n//        http\r\n//                .authorizeRequests(authorizeRequests ->\r\n//                        authorizeRequests\r\n//                                .mvcMatchers(\"/admin/**\").access(\"hasAuthority('SCOPE_admin')\")\r\n//                                .mvcMatchers(\"/user/**\").access(\"hasAnyAuthority('SCOPE_user', 'SCOPE_admin')\")\r\n//                                .mvcMatchers(\"/home/**\").access(\"permitAll()\")\r\n////                                .mvcMatchers(\"/admin/**\").access(\"permitAll()\")\r\n////                                .mvcMatchers(\"/user/**\").access(\"permitAll()\")\r\n//                                .anyRequest().authenticated())\r\n//                .oauth2ResourceServer()\r\n//                .jwt();\r\n//    }\r\n//}\r\n\r\n//@EnableWebFluxSecurity\r\npublic class ResourceServerConfig {\r\n//    @Bean\r\n//    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {\r\n//        http\r\n//                .authorizeExchange()\r\n//                    .pathMatchers(\"/resource/**\")\r\n//                        .hasAuthority(\"SCOPE_resource.read\")\r\n////                    .pathMatchers(\"/resource/admin/**\")\r\n////                        .hasRole(\"ROLE_admin\")\r\n////                   .pathMatchers(\"/resource/user/**\")\r\n////                        .hasAnyRole(\"ROLE_user\", \"ROLE_admin\")\r\n//\r\n//                .anyExchange()\r\n//                        .authenticated()\r\n//                    .and()\r\n//                .oauth2ResourceServer()\r\n//                    .jwt();\r\n//        return http.build();\r\n//    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- resource-server-a/src/main/java/com/gaven/resourceserver/config/ResourceServerConfig.java	(revision 6e3211b15e15cd88a61eaaa05155fae5110b93b5)
++++ resource-server-a/src/main/java/com/gaven/resourceserver/config/ResourceServerConfig.java	(date 1589448088069)
+@@ -29,25 +29,25 @@
+ //    }
+ //}
+ 
+-//@EnableWebFluxSecurity
++@EnableWebFluxSecurity
+ public class ResourceServerConfig {
+-//    @Bean
+-//    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {
+-//        http
+-//                .authorizeExchange()
+-//                    .pathMatchers("/resource/**")
+-//                        .hasAuthority("SCOPE_resource.read")
+-////                    .pathMatchers("/resource/admin/**")
+-////                        .hasRole("ROLE_admin")
+-////                   .pathMatchers("/resource/user/**")
+-////                        .hasAnyRole("ROLE_user", "ROLE_admin")
+-//
+-//                .anyExchange()
+-//                        .authenticated()
+-//                    .and()
+-//                .oauth2ResourceServer()
+-//                    .jwt();
+-//        return http.build();
+-//    }
++    @Bean
++    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {
++        http
++                .authorizeExchange()
++                    .pathMatchers("/resource/**")
++                        .hasAuthority("SCOPE_resource.read")
++                    .pathMatchers("/resource/admin/**")
++                        .hasRole("ROLE_admin")
++                   .pathMatchers("/resource/user/**")
++                        .hasAnyRole("ROLE_user", "ROLE_admin")
++
++                .anyExchange()
++                        .authenticated()
++                    .and()
++                .oauth2ResourceServer()
++                    .jwt();
++        return http.build();
++    }
+ }
+ 
+Index: resource-server-a/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n    <parent>\r\n        <groupId>org.springframework.boot</groupId>\r\n        <artifactId>spring-boot-starter-parent</artifactId>\r\n        <version>2.2.7.RELEASE</version>\r\n        <relativePath/> <!-- lookup parent from repository -->\r\n    </parent>\r\n    <groupId>com.gaven</groupId>\r\n    <artifactId>resource-server</artifactId>\r\n    <version>0.0.1-SNAPSHOT</version>\r\n    <name>resource-server</name>\r\n    <description>simple resource server for oauth2-gateway example</description>\r\n\r\n    <properties>\r\n        <java.version>1.8</java.version>\r\n        <spring-cloud.version>Hoxton.SR4</spring-cloud.version>\r\n    </properties>\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-security</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-webflux</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-web</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.security</groupId>\r\n            <artifactId>spring-security-oauth2-jose</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.keycloak</groupId>\r\n            <artifactId>keycloak-spring-boot-2-starter</artifactId>\r\n            <version>4.0.0.Final</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-test</artifactId>\r\n            <scope>test</scope>\r\n            <exclusions>\r\n                <exclusion>\r\n                    <groupId>org.junit.vintage</groupId>\r\n                    <artifactId>junit-vintage-engine</artifactId>\r\n                </exclusion>\r\n            </exclusions>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.security</groupId>\r\n            <artifactId>spring-security-test</artifactId>\r\n            <scope>test</scope>\r\n        </dependency>\r\n    </dependencies>\r\n\r\n    <dependencyManagement>\r\n        <dependencies>\r\n            <dependency>\r\n                <groupId>org.springframework.cloud</groupId>\r\n                <artifactId>spring-cloud-dependencies</artifactId>\r\n                <version>${spring-cloud.version}</version>\r\n                <type>pom</type>\r\n                <scope>import</scope>\r\n            </dependency>\r\n            <dependency>\r\n                <groupId>org.keycloak.bom</groupId>\r\n                <artifactId>keycloak-adapter-bom</artifactId>\r\n                <version>3.3.0.Final</version>\r\n                <type>pom</type>\r\n                <scope>import</scope>\r\n            </dependency>\r\n        </dependencies>\r\n    </dependencyManagement>\r\n\r\n    <build>\r\n        <plugins>\r\n            <plugin>\r\n                <groupId>org.springframework.boot</groupId>\r\n                <artifactId>spring-boot-maven-plugin</artifactId>\r\n            </plugin>\r\n        </plugins>\r\n    </build>\r\n\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- resource-server-a/pom.xml	(revision 6e3211b15e15cd88a61eaaa05155fae5110b93b5)
++++ resource-server-a/pom.xml	(date 1589448088078)
+@@ -37,18 +37,9 @@
+             <artifactId>spring-boot-starter-webflux</artifactId>
+         </dependency>
+         <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-web</artifactId>
+-        </dependency>
+-        <dependency>
+             <groupId>org.springframework.security</groupId>
+             <artifactId>spring-security-oauth2-jose</artifactId>
+         </dependency>
+-        <dependency>
+-            <groupId>org.keycloak</groupId>
+-            <artifactId>keycloak-spring-boot-2-starter</artifactId>
+-            <version>4.0.0.Final</version>
+-        </dependency>
+ 
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+@@ -74,13 +65,6 @@
+                 <groupId>org.springframework.cloud</groupId>
+                 <artifactId>spring-cloud-dependencies</artifactId>
+                 <version>${spring-cloud.version}</version>
+-                <type>pom</type>
+-                <scope>import</scope>
+-            </dependency>
+-            <dependency>
+-                <groupId>org.keycloak.bom</groupId>
+-                <artifactId>keycloak-adapter-bom</artifactId>
+-                <version>3.3.0.Final</version>
+                 <type>pom</type>
+                 <scope>import</scope>
+             </dependency>
+Index: resource-server/src/main/java/com/gaven/resourceserver/controller/Controller.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- resource-server/src/main/java/com/gaven/resourceserver/controller/Controller.java	(date 1589448141312)
++++ resource-server/src/main/java/com/gaven/resourceserver/controller/Controller.java	(date 1589448141312)
+@@ -0,0 +1,32 @@
++package com.gaven.resourceserver.controller;
++
++import org.springframework.security.core.annotation.AuthenticationPrincipal;
++import org.springframework.security.oauth2.jwt.Jwt;
++import org.springframework.web.bind.annotation.GetMapping;
++import org.springframework.web.bind.annotation.RestController;
++
++@RestController
++public class Controller {
++
++    @GetMapping("/resource/user")
++    public String user(@AuthenticationPrincipal Jwt jwt) {
++        return String.format("User resource accessed by: %s (with subjectId: %s)" ,
++                jwt.getClaims().get("user_name"),
++                jwt.getSubject());
++    }
++
++    @GetMapping("/resource/admin")
++    public String admin(@AuthenticationPrincipal Jwt jwt) {
++        return String.format("Admin resource accessed by: %s (with subjectId: %s) token: %s" ,
++                jwt.getClaims().get("user_name"),
++                jwt.getSubject(),
++                jwt.getTokenValue());
++    }
++
++    @GetMapping("/resource/home")
++    public String home(@AuthenticationPrincipal Jwt jwt) {
++        return String.format("Home resource accessed by: %s (with subjectId: %s)" ,
++                jwt.getClaims().get("user_name"),
++                jwt.getSubject());
++    }
++}

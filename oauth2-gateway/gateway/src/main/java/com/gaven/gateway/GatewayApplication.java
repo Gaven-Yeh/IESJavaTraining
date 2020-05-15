@@ -26,13 +26,13 @@ public class GatewayApplication {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("resource", r -> r.path("/resource/**")
-                        .filters(f -> f.filters(filterFactory.apply())
+                        .filters(f -> f.filters(filterFactory.apply()) //ensures that any exchanges intended for the Resource Server contain a JWT access token
                                 .removeRequestHeader("Cookie")) // Prevents cookie being sent downstream
                         .uri("lb://resource-server"))
                 .build();
     }
 
-    @GetMapping("/")
+    @GetMapping("/") // To view user information
     public String index(Model model,
                         @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
                         @AuthenticationPrincipal OAuth2User oauth2User) {

@@ -28,11 +28,11 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
             AuthenticationManagerBuilder auth) throws Exception {
 
         KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper()); // disables ROLE_ prefix
         auth.authenticationProvider(keycloakAuthenticationProvider);
     }
 
-    @Bean
+    @Bean //defines that we want to use the Spring Boot properties file support instead of the default keycloak.json
     public KeycloakSpringBootConfigResolver KeycloakConfigResolver() {
         return new KeycloakSpringBootConfigResolver();
     }
@@ -55,13 +55,13 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         super.configure(http);
         http.authorizeRequests()
                 .antMatchers("/resource/admin*")
-                .hasRole("admin")
+                    .hasRole("admin")
                 .antMatchers("/resource/user")
-                .hasAnyRole("user", "admin")
+                    .hasAnyRole("user", "admin")
                 .anyRequest()
-                .permitAll()
-                .and()
+                    .permitAll()
+            .and()
                 .oauth2ResourceServer()
-                .jwt();
+                    .jwt();
     }
 }

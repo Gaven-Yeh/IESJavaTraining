@@ -43,8 +43,8 @@ public class Controller {
         return "<h1>welcome</h1>";
     }
 
-    @GetMapping("resource/b")
+    @GetMapping("/resource/b")
     public String resource_b() {
-        return restTemplate.getForObject("http://resource-b/", String.class);
+        return restTemplate.getForObject("http://resource-server-b/", String.class);
     }
 }

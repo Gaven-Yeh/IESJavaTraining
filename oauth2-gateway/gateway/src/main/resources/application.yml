@@ -13,7 +13,7 @@ spring:
             client-id: gateway
             client-secret: d40a26a3-2eaf-4597-8cf5-e023364ea028
             authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+#            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: openid,profile,email,resource.read
         provider:
           keycloak:

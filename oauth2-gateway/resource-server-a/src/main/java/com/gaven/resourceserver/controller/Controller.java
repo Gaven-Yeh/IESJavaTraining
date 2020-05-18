@@ -1,5 +1,6 @@
 package com.gaven.resourceserver.controller;
 
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 public class Controller {
 
     @Autowired
+//    private KeycloakRestTemplate restTemplate;
     private RestTemplate restTemplate;
 
 //    @GetMapping("/resource/user")

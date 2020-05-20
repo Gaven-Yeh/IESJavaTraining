@@ -1,7 +1,9 @@
 package com.gaven.resourceserver.controller;
 
+
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +14,8 @@ import org.springframework.web.client.RestTemplate;
 public class Controller {
 
     @Autowired
-//    private KeycloakRestTemplate restTemplate;
-    private RestTemplate restTemplate;
+    private KeycloakRestTemplate restTemplate;
+//    private RestTemplate restTemplate;
 
 //    @GetMapping("/resource/user")
 //    public String user(@AuthenticationPrincipal Jwt jwt) {
@@ -30,14 +32,16 @@ public class Controller {
 //                jwt.getTokenValue());
 //    }
 
-    @GetMapping("/resource/user")
-    public String user() {
-        return "<h1>Welcome to the user endpoint</h1>";
-    }
-
     @GetMapping("/resource/admin")
+    @PreAuthorize("hasRole('admin')")
     public String admin() {
         return "<h1>Welcome to the admin endpoint</h1>";
+    }
+
+    @GetMapping("/resource/user")
+    @PreAuthorize("hasAnyRole('user', 'admin')")
+    public String user() {
+        return "<h1>Welcome to the user endpoint</h1>";
     }
 
     @GetMapping("/resource/home")
@@ -46,7 +50,8 @@ public class Controller {
     }
 
     @GetMapping("/resource/b")
+//    @PreAuthorize("hasRole('admin')")
     public String resource_b() {
-        return restTemplate.getForObject("http://resource-server-b/", String.class);
+        return restTemplate.getForObject("http://localhost:9001/", String.class);
     }
 }

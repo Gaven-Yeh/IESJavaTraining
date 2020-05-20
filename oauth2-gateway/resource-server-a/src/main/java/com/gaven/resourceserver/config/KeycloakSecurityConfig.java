@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
@@ -25,10 +26,11 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    public KeycloakClientRequestFactory keycloakClientRequestFactory;
+    @Autowired
+    public KeycloakClientRequestFactory keycloakClientRequestFactory;
 
     @Autowired
     public void configureGlobal(
@@ -44,11 +46,11 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         return new KeycloakSpringBootConfigResolver();
     }
 
-//    @Bean
-//    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-//    public KeycloakRestTemplate keycloakRestTemplate() {
-//        return new KeycloakRestTemplate(keycloakClientRequestFactory);
-//    }
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public KeycloakRestTemplate keycloakRestTemplate() {
+        return new KeycloakRestTemplate(keycloakClientRequestFactory);
+    }
 
     @Bean
     @Override
@@ -67,10 +69,6 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers("/resource/admin*")
-                    .hasRole("admin")
-                .antMatchers("/resource/user")
-                    .hasAnyRole("user", "admin")
                 .anyRequest()
                     .permitAll()
             .and()
